@@ -1,0 +1,6 @@
+--ui bdd
+--recursive
+--require test/initializer
+--exclude test/**/data/*
+--exclude test/**/.work/*
+--exclude test/tests/**/*

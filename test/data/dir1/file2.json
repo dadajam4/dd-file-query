@@ -1,0 +1,7 @@
+{
+  "hoge": false,
+  "fuga": {
+    "moge": "muga",
+    "muge": [0, 10, 200]
+  }
+}

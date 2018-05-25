@@ -1,0 +1,32 @@
+{
+  "name": "dd-file-query",
+  "version": "0.0.1",
+  "description": "Directory, file operation utility by glob base.",
+  "main": "lib/fq.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com.dadajam4:dadajam4/dd-file-query.git"
+  },
+  "author": "dadajam4",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=5.0.0"
+  },
+  "dependencies": {
+    "file-type": "^8.0.0",
+    "fs-extra": "^6.0.1",
+    "glob": "^7.1.2",
+    "js-yaml": "^3.11.0",
+    "parse-filepath": "^1.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}

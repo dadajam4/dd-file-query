@@ -1,0 +1,18 @@
+$schema: "http://json-schema.org/draft-04/hyper-schema"
+title: "マルチバイトyamlサンプル"
+description: ""
+type: "object"
+additionalProperties: false
+properties:
+  videoInformation:
+    type: "object"
+    default: null
+    properties:
+      id:
+        title: "ID"
+        description: "IDです"
+        type: "string"
+      url:
+        title: "URL"
+        description: "URLです"
+        type: "string"

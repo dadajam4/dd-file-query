@@ -1,8 +1,7 @@
 module.exports = function() {
   myDescribe('リネーム', function() {
     it('非同期', async function() {
-      const entries = fq.dir(WORK_PATH);
-      await entries.load();
+      const entries = await fq.dir(WORK_PATH).load();
       const src = entries.first.path;
       const newName = '_worked';
       const dest = entries.first.createRenamedPath(newName);

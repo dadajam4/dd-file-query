@@ -35,6 +35,15 @@ module.exports = function() {
         const buffer = file.readFileSync();
         assert.strictEqual(buffer, undefined);
       });
+
+      it('バッファー All', async function() {
+        const files = await fq.file(WORK_PATH).load();
+        const results = await files.readFileAll();
+        assert.strictEqual(results.length, 4);
+        for (const result of results) {
+          assert.strictEqual(result instanceof Buffer, true);
+        }
+      });
     }
 
     // test
@@ -65,6 +74,15 @@ module.exports = function() {
         const file = fq.sync(missingPath);
         const text = file.readTextSync();
         assert.strictEqual(text, undefined);
+      });
+
+      it('テキスト All', async function() {
+        const files = await fq.file(WORK_PATH).load();
+        const results = await files.readTextAll();
+        assert.strictEqual(results.length, 4);
+        for (const result of results) {
+          assert.strictEqual(typeof result === 'string', true);
+        }
       });
     }
 
@@ -97,6 +115,13 @@ module.exports = function() {
         const json = file.readJSONSync();
         assert.strictEqual(json, undefined);
       });
+
+      it('JSON All', async function() {
+        const files = await fq.load(target);
+        const results = await files.readJsonAll();
+        assert.strictEqual(results.length, 1);
+        assert.deepStrictEqual(results[0], matchData);
+      });
     }
 
     // yaml
@@ -127,6 +152,13 @@ module.exports = function() {
         const file = fq.sync(missingPath);
         const json = file.readYamlSync();
         assert.strictEqual(json, undefined);
+      });
+
+      it('yaml All', async function() {
+        const files = await fq.load(target);
+        const results = await files.readYamlAll();
+        assert.strictEqual(results.length, 1);
+        assert.deepStrictEqual(results[0], matchData);
       });
     }
   });

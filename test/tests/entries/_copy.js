@@ -1,6 +1,24 @@
 module.exports = function() {
-  myDescribe('移動', function() {
+  myDescribe('コピー', function() {
     it('非同期', async function() {
+      const entries = await fq.dir(WORK_PATH).load();
+      const dest = path.join(WORK_PATH, '_worked');
+      const worked = await entries.copy(dest);
+      assert.strictEqual(worked.path, dest);
+      const children = await worked.list('*');
+      assert.strictEqual(children.length, 4);
+    });
+
+    it('同期', function() {
+      const entries = fq.dirSync(WORK_PATH);
+      const dest = path.join(WORK_PATH, '_worked');
+      const worked = entries.copySync(dest);
+      assert.strictEqual(worked.path, dest);
+      const children = worked.listSync('*');
+      assert.strictEqual(children.length, 4);
+    });
+
+    it('All - 非同期', async function() {
       const entries = fq.dir(WORK_PATH);
       await entries.load();
       const checkers = [];
@@ -12,18 +30,17 @@ module.exports = function() {
           children: await entry.list('*'),
         })
       }
-      const results = await entries.move(entry => path.join(entry.dirname, entry.name + '_worked'));
+      const results = await entries.copyAll(entry => path.join(entry.dirname, entry.name + '_worked'));
       for (let i = 0, l = results.length; i < l; i++) {
         const checker = checkers[i];
         const worked = results[i];
         assert.strictEqual(worked.path, checker.dest);
         const children = await worked.list('*');
         assert.strictEqual(children.length, checker.children.length);
-        assert.strictEqual(entries.found.includes(checker.src), false);
       }
     });
 
-    it('同期', function() {
+    it('All - 同期', function() {
       const entries = fq.dirSync(WORK_PATH);
       const checkers = [];
       for (let i = 0, l = entries.length; i < l; i++) {
@@ -34,14 +51,13 @@ module.exports = function() {
           children: entry.listSync('*'),
         })
       }
-      const results = entries.moveSync(entry => path.join(entry.dirname, entry.name + '_worked'));
+      const results = entries.copyAllSync(entry => path.join(entry.dirname, entry.name + '_worked'));
       for (let i = 0, l = results.length; i < l; i++) {
         const checker = checkers[i];
         const worked = results[i];
         assert.strictEqual(worked.path, checker.dest);
         const children = worked.listSync('*');
         assert.strictEqual(children.length, checker.children.length);
-        assert.strictEqual(entries.found.includes(checker.src), false);
       }
     });
   });

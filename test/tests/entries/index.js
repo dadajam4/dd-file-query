@@ -1,7 +1,5 @@
-describe('fq（ファクトリー、メソッド）', function() {
-  require('./_construct-entries')();
-  require('./_construct-entry')();
-  require('./_filter')();
+describe('Entries （Entryフォロー参照＆操作含む）', function() {
+  require('./_member')();
   require('./_check')();
   require('./_read')();
   require('./_delete')();

@@ -11,12 +11,12 @@ const removeData = () => {
   fs.removeSync(WORK_PATH);
 }
 
-const setupData = () => {
-  fs.copySync(SOURCE_PATH, WORK_PATH);
+const setupData = (data = '1') => {
+  fs.copySync(path.join(SOURCE_PATH, String(data)), WORK_PATH);
 }
 
-const beforeEachSetup = done => {
-  setupData();
+const beforeEachSetup = (data, done) => {
+  setupData(data);
   done();
 }
 
@@ -26,9 +26,15 @@ const afterEachSetup = done => {
   done();
 }
 
-global.myDescribe = (name, cb) => {
+global.myDescribe = (name, opts, cb) => {
+  if (typeof opts === 'function') cb = opts;
+  opts = opts || {};
+  const data = opts.data || '1';
+
   describe(name, function() {
-    beforeEach(beforeEachSetup);
+    beforeEach(done => {
+      beforeEachSetup(data, done);
+    });
     afterEach(afterEachSetup);
     return cb();
   });

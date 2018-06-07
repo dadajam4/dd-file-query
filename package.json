@@ -20,9 +20,14 @@
     "npm": ">=5.0.0"
   },
   "dependencies": {
+    "archiver": "^2.1.1",
+    "chardet": "^0.5.0",
+    "chokidar": "^2.0.3",
+    "decompress": "^4.2.0",
     "file-type": "^8.0.0",
     "fs-extra": "^6.0.1",
     "glob": "^7.1.2",
+    "iconv-lite": "^0.4.23",
     "js-yaml": "^3.11.0",
     "parse-filepath": "^1.0.2"
   },

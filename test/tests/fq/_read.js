@@ -29,6 +29,14 @@ module.exports = function() {
         const buffer = fq.readFileSync(missingPath);
         assert.strictEqual(buffer, undefined);
       });
+
+      it('readFile All', async function() {
+        const results = await fq.readFileAll({ pattern: path.join(WORK_PATH, '*'), options: { filters: e => e.isFile } });
+        assert.strictEqual(results.length, 4);
+        for (const result of results) {
+          assert.strictEqual(result instanceof Buffer, true);
+        }
+      });
     }
 
     // text
@@ -45,14 +53,22 @@ module.exports = function() {
         assert.strictEqual(text, matchData);
       });
 
-      it('readFile（ファイルがない時）', async function() {
+      it('readText（ファイルがない時）', async function() {
         const text = await fq.readText(missingPath);
         assert.strictEqual(text, undefined);
       });
 
-      it('readFile（ファイルがない時&同期）', function() {
+      it('readText（ファイルがない時&同期）', function() {
         const text = fq.readTextSync(missingPath);
         assert.strictEqual(text, undefined);
+      });
+
+      it('readText All', async function() {
+        const results = await fq.readTextAll({ pattern: path.join(WORK_PATH, '*'), options: { filters: e => e.isFile } });
+        assert.strictEqual(results.length, 4);
+        for (const result of results) {
+          assert.strictEqual(typeof result === 'string', true);
+        }
       });
     }
 
@@ -79,6 +95,12 @@ module.exports = function() {
         const json = fq.readJSONSync(missingPath);
         assert.strictEqual(json, undefined);
       });
+
+      it('readJSON All', async function() {
+        const results = await fq.readJsonAll(target);
+        assert.strictEqual(results.length, 1);
+        assert.deepStrictEqual(results[0], matchData);
+      });
     }
 
     // yaml
@@ -103,6 +125,12 @@ module.exports = function() {
       it('readYaml（ファイルがない時&同期）', function() {
         const json = fq.readYamlSync(missingPath);
         assert.strictEqual(json, undefined);
+      });
+
+      it('readYaml All', async function() {
+        const results = await fq.readYamlAll(target);
+        assert.strictEqual(results.length, 1);
+        assert.deepStrictEqual(results[0], matchData);
       });
     }
   });

@@ -27,7 +27,7 @@ module.exports = function() {
     });
 
     it('複数削除（最初にディレクトリが削除されて後続のファイル削除で失敗しない事）', async function() {
-      const entries = fq.sync(WORK_PATH, {r: true});
+      const entries = await fq.load(WORK_PATH, {r: true});
       await Promise.all(entries.map(e => e.del()));
       assert.strictEqual(entries.length, 0);
     });

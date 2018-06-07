@@ -48,6 +48,20 @@ module.exports = function() {
         assert.strictEqual(file.size, fileSize);
         assert.strictEqual(result, writeData);
       });
+
+      it('テキスト - Shift-JIS', async function() {
+        const file = await fq.single(target);
+        await file.writeText(writeData, 'Shift-JIS');
+        const result = await fq.readText(target, 'Shift-JIS');
+        assert.strictEqual(result, writeData);
+      });
+
+      it('テキスト - Shift-JIS（同期）', function() {
+        const file = fq.singleSync(target);
+        file.writeTextSync(writeData, 'Shift-JIS');
+        const result = fq.readTextSync(target, 'Shift-JIS');
+        assert.strictEqual(result, writeData);
+      });
     }
 
     // json

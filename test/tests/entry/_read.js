@@ -78,4 +78,20 @@ module.exports = function() {
       });
     }
   });
+
+  myDescribe('読み込み（文字コード）', { data: 2 }, function() {
+    const target = path.join(WORK_PATH, 'sjis.txt');
+    const matchData = 'あいうえお ０１２３\nａｂｃ ＸＹＺ\nｱｲｳｴｵ ｧｨｩｪォ\n文字化けパターン\n機能・研究\n～―－＄￠￡㈱①Ⅱ';
+    it('sjis', async function() {
+      const entry = await fq.single(target);
+      const text = await entry.readText('shift_jis');
+      assert.strictEqual(text, matchData);
+    });
+
+    it('sjis 非同期', function() {
+      const entry = fq.singleSync(target);
+      const text = entry.readTextSync('shift_jis');
+      assert.strictEqual(text, matchData);
+    });
+  });
 }

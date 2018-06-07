@@ -1,6 +1,30 @@
 module.exports = function() {
   myDescribe('リネーム', function() {
     it('非同期', async function() {
+      const entries = await fq.dir(WORK_PATH).load();
+      const src = entries.path;
+      const newName = '_worked';
+      const dest = entries.createRenamedPath(newName);
+      const worked = await entries.rename(newName);
+      assert.strictEqual(entries.found.includes(src), false);
+      assert.strictEqual(worked.path, dest);
+      const children = await worked.list('*');
+      assert.strictEqual(children.length, 4);
+    });
+
+    it('同期', function() {
+      const entries = fq.dirSync(WORK_PATH);
+      const src = entries.path;
+      const newName = '_worked';
+      const dest = entries.createRenamedPath(newName);
+      const worked = entries.renameSync(newName);
+      assert.strictEqual(entries.found.includes(src), false);
+      assert.strictEqual(worked.path, dest);
+      const children = worked.listSync('*');
+      assert.strictEqual(children.length, 4);
+    });
+
+    it('All - 非同期', async function() {
       const entries = fq.dir(WORK_PATH);
       await entries.load();
       const checkers = [];
@@ -15,7 +39,7 @@ module.exports = function() {
           children: await entry.list('*'),
         })
       }
-      const results = await entries.rename(entry => entry.name + '_worked');
+      const results = await entries.renameAll(entry => entry.name + '_worked');
       for (let i = 0, l = results.length; i < l; i++) {
         const checker = checkers[i];
         const worked = results[i].get(i);
@@ -26,7 +50,7 @@ module.exports = function() {
       }
     });
 
-    it('同期', function() {
+    it('All - 同期', function() {
       const entries = fq.dirSync(WORK_PATH);
       const checkers = [];
       for (let i = 0, l = entries.length; i < l; i++) {
@@ -40,7 +64,7 @@ module.exports = function() {
           children: entry.listSync('*'),
         })
       }
-      const results = entries.renameSync(entry => entry.name + '_worked');
+      const results = entries.renameAllSync(entry => entry.name + '_worked');
       for (let i = 0, l = results.length; i < l; i++) {
         const checker = checkers[i];
         const worked = results[i].get(i);

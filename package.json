@@ -1,6 +1,6 @@
 {
   "name": "dd-file-query",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Directory, file operation utility by glob base.",
   "main": "lib/fq.js",
   "directories": {

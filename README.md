@@ -67,6 +67,10 @@ const fq = require('dd-file-query');
 (async () => {
   const entries = await fq.load('path/to/**/*.txt');
   await entries.delAll();
+  
+  const entry = await fq.single('path/to/hoge.txt');
+  const text = await entry.readText('Shift-JIS');
+  await entry.writeText(text + '\nworked!!!!', 'Shift-JIS');
 })();
 ```
 
@@ -75,7 +79,7 @@ const fq = require('dd-file-query');
 const fq = require('dd-file-query');
 
 (async () => {
-  await delAll('path/to/**/*.txt');
+  await fq.delAll('path/to/**/*.txt');
 })();
 ```
 
